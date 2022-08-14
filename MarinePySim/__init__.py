@@ -9,7 +9,7 @@ Example usage:
 # Import entire package
 import MarinePySim
 # or import modules as needed
-## module
+## ocean
 from MarinePySim import ocean
 
 ## use advanced logging
