@@ -1,3 +1,3 @@
-from .ocean import search
+from .ocean import copernicus
 
-__all__ = ["search"]
+__all__ = ["copernicus"]

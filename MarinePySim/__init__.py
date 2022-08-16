@@ -33,7 +33,7 @@ __title__ = "MarinePySim"
 __author__ = "Ayush Anand"
 __license__ = "MIT"
 
-from .ocean import search
+from .ocean import copernicus
 
 __all__ = [
     "ocean",
