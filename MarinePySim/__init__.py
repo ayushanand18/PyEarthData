@@ -37,4 +37,5 @@ from .ocean import copernicus
 
 __all__ = [
     "ocean",
+    "airs",
 ]
