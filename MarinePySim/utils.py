@@ -8,6 +8,6 @@ def get(url, args, ctype, **kwargs):
     """
     return response from api
     """
-    out = requests.get(url, params=args, **kwargs)
+    out = requests.get(url, params=args, stream=True, **kwargs)
     out.raise_for_status()
     return out
