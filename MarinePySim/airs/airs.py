@@ -346,3 +346,41 @@ def h2o_vapour(tilematrix, tilecol, tilerow, date, format="png", layer="AMSR2_Co
     }
     out = get(url, args, "image/png")
     return out
+
+def map_underlay(tilematrix, tilecol, tilerow, date, format="jpeg", layer="BlueMarble_NextGeneration", **kwargs):
+    """
+    Get earth satellite view underlaying the data
+    
+    :param tilematrix: [integer]
+    :param tilerow: [integer]
+    :param tilecol: [integer]
+    :param date: [date string] format YYYY-MM-DD
+    :param format: [string] png/jpeg formats
+
+    Usage::
+    
+    # fetch background earth view tile as image/jpeg
+    response = airs.map_underlay(
+                tilematrix=2,
+                tilecol=2,
+                tilerow=0, 
+                date="2011-10-08")
+    with open('img.png', 'wb') as out_file:
+        shutil.copyfileobj(response.raw, out_file)
+    del response
+    """
+    url = __airs_base_url__
+    args = {
+        "layer":layer,
+        "tilematrixset":"EPSG4326_500m",
+        "Service":"WMTS",
+        "Request":"GetTile",
+        "Version":"1.0.0",
+        "Format":f"image/{format}",
+        "TileMatrix":tilematrix,
+        "TileCol":tilecol,
+        "TileRow":tilerow,
+        "TIME":date,
+    }
+    out = get(url, args, "image/jpeg")
+    return out
