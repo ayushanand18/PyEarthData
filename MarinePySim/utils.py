@@ -2,10 +2,12 @@
 Utils for package
 """
 import requests
+__airs_base_url__ = "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi"
 
 def get(url, args, ctype, **kwargs):
     """
     return response from api
     """
     out = requests.get(url, params=args, **kwargs)
-    return 1
+    out.raise_for_status()
+    return out

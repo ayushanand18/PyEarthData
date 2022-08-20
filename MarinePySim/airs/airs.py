@@ -1,14 +1,29 @@
 """
 AIRS module
 """
-from ..utils import get
+from ..utils import get, __airs_base_url__
 
-def rel_humidty():
+def rel_humidty(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get Relative Humidity
-    
+    ::param layer: [string] AIRS_L2_RelativeHumidity_500hPa_Night
+
     """
-    return 1
+    url = __airs_base_url__
+    args = {
+        "layer":layer,
+        "tilematrixset":"EPSG4326_2km",
+        "Service":"WMTS",
+        "Request":"GetTile",
+        "Version":"1.0.0",
+        "Format":f"image/{format}",
+        "TileMatrix":tilematrix,
+        "TileCol":tilecol,
+        "TileRow":tilerow,
+        "TIME":date,
+    }
+    out = get(url, args, "image/png")
+    return out
 
 def co():
     """
