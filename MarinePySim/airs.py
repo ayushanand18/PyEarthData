@@ -1,7 +1,7 @@
 """
 AIRS module
 """
-from ..utils import get, __airs_base_url__
+from .utils import get, __airs_base_url__
 
 def rel_humidity(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """

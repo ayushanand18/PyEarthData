@@ -1,5 +1,5 @@
 """
-Utils for package
+Utils for MarinePySim package
 """
 import requests
 __airs_base_url__ = "https://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi"
