@@ -1,11 +1,13 @@
 """
 AIRS module: Get Data directly from AIRS aboard NASA's Aqua Satellite
 """
+
 from .utils import get, __airs_base_url__
 
 def rel_humidity(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get Relative Humidity
+
     :param layer: [string] choose between
         AIRS_L2_RelativeHumidity_500hPa_Night
         AIRS_L2_RelativeHumidity_500hPa_Day
@@ -22,18 +24,20 @@ def rel_humidity(layer, tilematrix, tilecol, tilerow, date, format="png", **kwar
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
 
-    # fetch tile as image/png
-    response = airs.rel_humidty(
-                layer="AIRS_L2_RelativeHumidity_500hPa_Night", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.rel_humidty(
+                    layer="AIRS_L2_RelativeHumidity_500hPa_Night", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -54,6 +58,7 @@ def rel_humidity(layer, tilematrix, tilecol, tilerow, date, format="png", **kwar
 def co(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get Carbon monoxide data
+
     :param layer: [string] choose between
         AIRS_L2_Carbon_Monoxide_500hPa_Volume_Mixing_Ratio_Day
         AIRS_L2_Carbon_Monoxide_500hPa_Volume_Mixing_Ratio_Night
@@ -63,18 +68,20 @@ def co(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
 
-    # fetch tile as image/png
-    response = airs.co(
-                layer="AIRS_L2_Carbon_Monoxide_500hPa_Volume_Mixing_Ratio_Day", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.co(
+                    layer="AIRS_L2_Carbon_Monoxide_500hPa_Volume_Mixing_Ratio_Day", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -95,6 +102,7 @@ def co(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
 def dust(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get dust score
+
     :param layer: [string]
         AIRS_L2_Dust_Score_Day
         AIRS_L2_Dust_Score_Night
@@ -103,19 +111,21 @@ def dust(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     :param tilecol: [integer]
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
+    
+    :return: An Image
 
     Usage::
 
-    # fetch tile as image/png
-    response = airs.dust(
-                layer="AIRS_L2_Dust_Score_Day", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.dust(
+                    layer="AIRS_L2_Dust_Score_Day", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -136,6 +146,7 @@ def dust(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
 def out_long_rad(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get Outgoing Longwave Radiation
+    
     :param layer: [string]
         AIRS_L3_All_Sky_Outgoing_Longwave_Radiation_Daily_Day
         AIRS_L3_All_Sky_Outgoing_Longwave_Radiation_Daily_Night
@@ -145,18 +156,20 @@ def out_long_rad(layer, tilematrix, tilecol, tilerow, date, format="png", **kwar
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
 
-    # fetch tile as image/png
-    response = airs.out_long_rad(
-                layer="AIRS_L3_All_Sky_Outgoing_Longwave_Radiation_Daily_Day", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.out_long_rad(
+                    layer="AIRS_L3_All_Sky_Outgoing_Longwave_Radiation_Daily_Day", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -177,6 +190,7 @@ def out_long_rad(layer, tilematrix, tilecol, tilerow, date, format="png", **kwar
 def precipitation(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get precipitation data
+
     :param layer: [string]
         AIRS_Precipitation_Day
         AIRS_Precipitation_Night
@@ -186,18 +200,20 @@ def precipitation(layer, tilematrix, tilecol, tilerow, date, format="png", **kwa
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
 
-    # fetch tile as image/png
-    response = airs.precipitation(
-                layer="AIRS_Precipitation_Day", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.precipitation(
+                    layer="AIRS_Precipitation_Day", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -218,6 +234,7 @@ def precipitation(layer, tilematrix, tilecol, tilerow, date, format="png", **kwa
 def so2(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get sulfur dioxide data
+
     :param layer: [string]
         AIRS_L2_Sulfur_Dioxide_Brightness_Temperature_Difference_Day
         AIRS_L2_Sulfur_Dioxide_Brightness_Temperature_Difference_Night
@@ -229,18 +246,20 @@ def so2(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
 
-    # fetch tile as image/png
-    response = airs.so2(
-                layer="AIRS_L2_Sulfur_Dioxide_Brightness_Temperature_Difference_Day", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.so2(
+                    layer="AIRS_L2_Sulfur_Dioxide_Brightness_Temperature_Difference_Day", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -261,6 +280,7 @@ def so2(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
 def temp(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     """
     Get temperature data
+
     :param layer: [string]
         AIRS_L2_Surface_Air_Temperature_Day
         AIRS_L2_Surface_Air_Temperature_Night
@@ -278,18 +298,20 @@ def temp(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
 
-    # fetch tile as image/png
-    response = airs.temp(
-                layer="AIRS_L2_Surface_Air_Temperature_Day", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.temp(
+                    layer="AIRS_L2_Surface_Air_Temperature_Day", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -309,7 +331,8 @@ def temp(layer, tilematrix, tilecol, tilerow, date, format="png", **kwargs):
 
 def h2o_vapour(tilematrix, tilecol, tilerow, date, format="png", layer="AMSR2_Columnar_Water_Vapor_Day", **kwargs):
     """
-    get water vapour data
+    Get water vapour data
+
     :param layer: [string]
         AMSR2_Columnar_Water_Vapor_Day
     :param tilematrix: [integer]
@@ -318,18 +341,20 @@ def h2o_vapour(tilematrix, tilecol, tilerow, date, format="png", layer="AMSR2_Co
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
 
-    # fetch tile as image/png
-    response = airs.h2o_vapour(
-                layer="AMSR2_Columnar_Water_Vapor_Day", 
-                tilecol=1,
-                tilematrix=3, 
-                tilerow=1, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        # fetch tile as image/png
+        response = airs.h2o_vapour(
+                    layer="AMSR2_Columnar_Water_Vapor_Day", 
+                    tilecol=1,
+                    tilematrix=3, 
+                    tilerow=1, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {
@@ -349,7 +374,7 @@ def h2o_vapour(tilematrix, tilecol, tilerow, date, format="png", layer="AMSR2_Co
 
 def map_underlay(tilematrix, tilecol, tilerow, date, format="jpeg", layer="BlueMarble_NextGeneration", **kwargs):
     """
-    Get earth satellite view underlaying the data
+    Get earth satellite view underlaying the data.
     
     :param tilematrix: [integer]
     :param tilerow: [integer]
@@ -357,17 +382,19 @@ def map_underlay(tilematrix, tilecol, tilerow, date, format="jpeg", layer="BlueM
     :param date: [date string] format YYYY-MM-DD
     :param format: [string] png/jpeg formats
 
+    :return: An Image
+
     Usage::
-    
-    # fetch background earth view tile as image/jpeg
-    response = airs.map_underlay(
-                tilematrix=2,
-                tilecol=2,
-                tilerow=0, 
-                date="2011-10-08")
-    with open('img.png', 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+        
+        # fetch background earth view tile as image/jpeg
+        response = airs.map_underlay(
+                    tilematrix=2,
+                    tilecol=2,
+                    tilerow=0, 
+                    date="2011-10-08")
+        with open('img.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
     """
     url = __airs_base_url__
     args = {

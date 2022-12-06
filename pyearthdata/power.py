@@ -13,11 +13,14 @@ def get_temp(longitude, latitude, start, end, **kwargs):
     :param start: [Integer] Start date. format YYYYMMDD
     :param end: [Integer] End Date. format YYYYMMDD
 
+    :return: An Image
+
     Usage::
-    from MarinePySim import power
-    res = power.get_temp(77,22,20141201,20141205)
-    print(res)
-    print(res["geometry"])
+    
+        # from PyEarthData import power
+        res = power.get_temp(77,22,20141201,20141205)
+        print(res)
+        print(res["geometry"])
     """
     args = {
         "parameters":"QV2M,RH2M,PRECTOTCORR",
