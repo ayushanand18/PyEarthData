@@ -1,5 +1,5 @@
 """
-AIRS module
+AIRS module: Get Data directly from AIRS aboard NASA's Aqua Satellite
 """
 from .utils import get, __airs_base_url__
 

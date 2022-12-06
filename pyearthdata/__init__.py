@@ -9,8 +9,10 @@ Example usage:
 # Import entire package
 import pyearthdata
 # or import modules as needed
-## ocean
+## airs
 from pyearthdata import airs
+## power
+from pyearthdata import power
 
 ## use advanced logging
 ### setup first
@@ -24,11 +26,15 @@ requests_log = logging.getLogger("requests.packages.urllib3")
 requests_log.setLevel(logging.DEBUG)
 requests_log.propagate = True
 ### then make request
-from MarinePySim import ocean
-___ some sample requests ___
+from MarinePySim import airs
+airs.co()
 """
 
-__version__ = "1.0.0"
+try:
+    from ._version import __version__
+except ImportError:
+    __version__ = "unknown"
+
 __title__ = "PyEarthData"
 __author__ = "Ayush Anand"
 __license__ = "MIT"
