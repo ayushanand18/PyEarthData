@@ -6,6 +6,15 @@
 Welcome to PyEarthData's documentation!
 =======================================
 
+Python Package for grabbing earth surface and atmosphere data.
+
+Installation
+------------
+Install latest development version from GitHub
+##############################################
+.. code-block::Python
+   pip install git+git://github.com/ayushanand18/PyEarthData.git
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
