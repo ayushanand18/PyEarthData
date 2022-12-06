@@ -34,7 +34,7 @@ jobs:
 
     - name: Test wheels
       run: |
-        cd dist && python -m pip install pyobis*.whl
+        cd dist && python -m pip install pyearthdata*.whl
         python -m twine check *
       shell: bash
 
