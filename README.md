@@ -1,4 +1,4 @@
-# ocean-research-py
+# PyEarthData
 Simulating concentration of gases through atmospheric data and analysing its affect on Marine Species.
 
 ## introduction

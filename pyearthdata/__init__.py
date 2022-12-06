@@ -1,16 +1,16 @@
 """
-MarinePySim package
+PyEarthData package
 ~~~~~~~~~~~~~~~~~~~~~
 
-MarinePySim is a python Simulator for dissolved Ocean gases and Marine Species Analysis
+PyEarthData is a python Simulator for dissolved Ocean gases and Marine Species Analysis
 
 Example usage:
 
 # Import entire package
-import MarinePySim
+import pyearthdata
 # or import modules as needed
 ## ocean
-from MarinePySim import ocean
+from pyearthdata import airs
 
 ## use advanced logging
 ### setup first
@@ -28,8 +28,8 @@ from MarinePySim import ocean
 ___ some sample requests ___
 """
 
-__version__ = "0.0.1"
-__title__ = "MarinePySim"
+__version__ = "1.0.0"
+__title__ = "PyEarthData"
 __author__ = "Ayush Anand"
 __license__ = "MIT"
 
