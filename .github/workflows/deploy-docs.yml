@@ -29,7 +29,8 @@ jobs:
       run: |
         micromamba create --name TEST python=3 --file requirements.txt --file requirements-dev.txt --channel conda-forge
         micromamba activate TEST
-        python -m pip install -e . --no-deps --force-reinstall
+        pip install --upgrade pip
+        pip install -e . --no-deps --force-reinstall
     - name: Get the version
       id: get_version
       run: echo ::set-output name=VERSION::$(python setup.py --version)
