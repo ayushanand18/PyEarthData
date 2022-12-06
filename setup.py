@@ -5,7 +5,7 @@ setup(
     # does not work unless we put the name this here too.
     name="PyEarthData",
     use_scm_version={
-        "write_to": "PyEarthData/_version.py",
+        "write_to": "pyearthdata/_version.py",
         "write_to_template": '__version__ = "{version}"',
         "tag_regex": r"^(?P<prefix>v)?(?P<version>[^\+]+)(?P<suffix>.*)?$",
     },

@@ -132,6 +132,7 @@ dmypy.json
 test.py
 img.png
 imgh.png
+pyearthdata/_version.py
 
 # gitpod setup files
 .gitpod.yml
