@@ -132,3 +132,6 @@ dmypy.json
 test.py
 img.png
 imgh.png
+
+# gitpod setup files
+.gitpod.yml
