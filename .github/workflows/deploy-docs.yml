@@ -38,7 +38,6 @@ jobs:
     - name: Build documentation
       shell: bash -l {0}
       run: |
-        set -e
         micromamba activate TEST
         pushd docs
         make clean html linkcheck
