@@ -23,7 +23,7 @@ Install latest development version from GitHub
    :caption: Contents:
 
 Contents
-########
+--------
 
 .. toctree::
    :maxdepth: 2
@@ -32,16 +32,24 @@ Contents
    power
 
 Modules
-#######
+-------
 `airs <airs.html>`__
-----------------------
+####################
 
 AIRS module: Get Data directly from AIRS aboard NASA's Aqua Satellite
 
+.. code-block:: python
+   
+   from pyearthdata import airs
+
 `power <power.html>`__
-----------------------
+######################
 
 POWER module: Fetching NASA/POWER CERES/MERRA2 Native Resolution Daily Data
+
+.. code-block:: python
+   
+   from pyearthdata import power
 
 Indices and tables
 ==================
