@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyearthdata.airs &#8212; PyEarthData 4 - Beta documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyearthdata.airs</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">AIRS module: Get Data directly from AIRS aboard NASA&#39;s Aqua Satellite</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">__airs_base_url__</span>
+
+<div class="viewcode-block" id="rel_humidity"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.rel_humidity">[docs]</a><span class="k">def</span> <span class="nf">rel_humidity</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Relative Humidity</span>
+
+<span class="sd">    :param layer: [string] choose between</span>
+<span class="sd">        AIRS_L2_RelativeHumidity_500hPa_Night</span>
+<span class="sd">        AIRS_L2_RelativeHumidity_500hPa_Day</span>
+<span class="sd">        AIRS_L2_RelativeHumidity_700hPa_Night</span>
+<span class="sd">        AIRS_L2_RelativeHumidity_500hPa_Day</span>
+<span class="sd">        AIRS_L2_RelativeHumidity_850hPa_Night</span>
+<span class="sd">        AIRS_L2_RelativeHumidity_850hPa_Day</span>
+<span class="sd">        AIRS_L2_Surface_Relative_Humidity_Day</span>
+<span class="sd">        AIRS_L2_Surface_Relative_Humidity_Night</span>
+
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.rel_humidty(</span>
+<span class="sd">                    layer=&quot;AIRS_L2_RelativeHumidity_500hPa_Night&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="co"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.co">[docs]</a><span class="k">def</span> <span class="nf">co</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Carbon monoxide data</span>
+
+<span class="sd">    :param layer: [string] choose between</span>
+<span class="sd">        AIRS_L2_Carbon_Monoxide_500hPa_Volume_Mixing_Ratio_Day</span>
+<span class="sd">        AIRS_L2_Carbon_Monoxide_500hPa_Volume_Mixing_Ratio_Night</span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.co(</span>
+<span class="sd">                    layer=&quot;AIRS_L2_Carbon_Monoxide_500hPa_Volume_Mixing_Ratio_Day&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s1">&#39;image/png&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="dust"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.dust">[docs]</a><span class="k">def</span> <span class="nf">dust</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get dust score</span>
+
+<span class="sd">    :param layer: [string]</span>
+<span class="sd">        AIRS_L2_Dust_Score_Day</span>
+<span class="sd">        AIRS_L2_Dust_Score_Night</span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+<span class="sd">    </span>
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.dust(</span>
+<span class="sd">                    layer=&quot;AIRS_L2_Dust_Score_Day&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="out_long_rad"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.out_long_rad">[docs]</a><span class="k">def</span> <span class="nf">out_long_rad</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Outgoing Longwave Radiation</span>
+<span class="sd">    </span>
+<span class="sd">    :param layer: [string]</span>
+<span class="sd">        AIRS_L3_All_Sky_Outgoing_Longwave_Radiation_Daily_Day</span>
+<span class="sd">        AIRS_L3_All_Sky_Outgoing_Longwave_Radiation_Daily_Night</span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.out_long_rad(</span>
+<span class="sd">                    layer=&quot;AIRS_L3_All_Sky_Outgoing_Longwave_Radiation_Daily_Day&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="precipitation"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.precipitation">[docs]</a><span class="k">def</span> <span class="nf">precipitation</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get precipitation data</span>
+
+<span class="sd">    :param layer: [string]</span>
+<span class="sd">        AIRS_Precipitation_Day</span>
+<span class="sd">        AIRS_Precipitation_Night</span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.precipitation(</span>
+<span class="sd">                    layer=&quot;AIRS_Precipitation_Day&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="so2"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.so2">[docs]</a><span class="k">def</span> <span class="nf">so2</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get sulfur dioxide data</span>
+
+<span class="sd">    :param layer: [string]</span>
+<span class="sd">        AIRS_L2_Sulfur_Dioxide_Brightness_Temperature_Difference_Day</span>
+<span class="sd">        AIRS_L2_Sulfur_Dioxide_Brightness_Temperature_Difference_Night</span>
+<span class="sd">        AIRS_Prata_SO2_Index_Day</span>
+<span class="sd">        AIRS_Prata_SO2_Index_Night</span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.so2(</span>
+<span class="sd">                    layer=&quot;AIRS_L2_Sulfur_Dioxide_Brightness_Temperature_Difference_Day&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="temp"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.temp">[docs]</a><span class="k">def</span> <span class="nf">temp</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get temperature data</span>
+
+<span class="sd">    :param layer: [string]</span>
+<span class="sd">        AIRS_L2_Surface_Air_Temperature_Day</span>
+<span class="sd">        AIRS_L2_Surface_Air_Temperature_Night</span>
+<span class="sd">        AIRS_L2_Surface_Skin_Temperature_Day</span>
+<span class="sd">        AIRS_L2_Surface_Skin_Temperature_Night</span>
+<span class="sd">        AIRS_L2_Temperature_500hPa_Day</span>
+<span class="sd">        AIRS_L2_Temperature_500hPa_Night</span>
+<span class="sd">        AIRS_L2_Temperature_700hPa_Day</span>
+<span class="sd">        AIRS_L2_Temperature_700hPa_Night</span>
+<span class="sd">        AIRS_L2_Temperature_850hPa_Day</span>
+<span class="sd">        AIRS_L2_Temperature_850hPa_Night</span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.temp(</span>
+<span class="sd">                    layer=&quot;AIRS_L2_Surface_Air_Temperature_Day&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="h2o_vapour"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.h2o_vapour">[docs]</a><span class="k">def</span> <span class="nf">h2o_vapour</span><span class="p">(</span><span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s2">&quot;AMSR2_Columnar_Water_Vapor_Day&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get water vapour data</span>
+
+<span class="sd">    :param layer: [string]</span>
+<span class="sd">        AMSR2_Columnar_Water_Vapor_Day</span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        # fetch tile as image/png</span>
+<span class="sd">        response = airs.h2o_vapour(</span>
+<span class="sd">                    layer=&quot;AMSR2_Columnar_Water_Vapor_Day&quot;, </span>
+<span class="sd">                    tilecol=1,</span>
+<span class="sd">                    tilematrix=3, </span>
+<span class="sd">                    tilerow=1, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_2km&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="map_underlay"><a class="viewcode-back" href="../../airs.html#pyearthdata.airs.map_underlay">[docs]</a><span class="k">def</span> <span class="nf">map_underlay</span><span class="p">(</span><span class="n">tilematrix</span><span class="p">,</span> <span class="n">tilecol</span><span class="p">,</span> <span class="n">tilerow</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;jpeg&quot;</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s2">&quot;BlueMarble_NextGeneration&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get earth satellite view underlaying the data.</span>
+<span class="sd">    </span>
+<span class="sd">    :param tilematrix: [integer]</span>
+<span class="sd">    :param tilerow: [integer]</span>
+<span class="sd">    :param tilecol: [integer]</span>
+<span class="sd">    :param date: [date string] format YYYY-MM-DD</span>
+<span class="sd">    :param format: [string] png/jpeg formats</span>
+
+<span class="sd">    :return: An Image</span>
+
+<span class="sd">    Usage::</span>
+<span class="sd">        </span>
+<span class="sd">        # fetch background earth view tile as image/jpeg</span>
+<span class="sd">        response = airs.map_underlay(</span>
+<span class="sd">                    tilematrix=2,</span>
+<span class="sd">                    tilecol=2,</span>
+<span class="sd">                    tilerow=0, </span>
+<span class="sd">                    date=&quot;2011-10-08&quot;)</span>
+<span class="sd">        with open(&#39;img.png&#39;, &#39;wb&#39;) as out_file:</span>
+<span class="sd">            shutil.copyfileobj(response.raw, out_file)</span>
+<span class="sd">        del response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">__airs_base_url__</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;layer&quot;</span><span class="p">:</span><span class="n">layer</span><span class="p">,</span>
+        <span class="s2">&quot;tilematrixset&quot;</span><span class="p">:</span><span class="s2">&quot;EPSG4326_500m&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Service&quot;</span><span class="p">:</span><span class="s2">&quot;WMTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Request&quot;</span><span class="p">:</span><span class="s2">&quot;GetTile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format&quot;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;image/</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TileMatrix&quot;</span><span class="p">:</span><span class="n">tilematrix</span><span class="p">,</span>
+        <span class="s2">&quot;TileCol&quot;</span><span class="p">:</span><span class="n">tilecol</span><span class="p">,</span>
+        <span class="s2">&quot;TileRow&quot;</span><span class="p">:</span><span class="n">tilerow</span><span class="p">,</span>
+        <span class="s2">&quot;TIME&quot;</span><span class="p">:</span><span class="n">date</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;image/jpeg&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">PyEarthData</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../airs.html">AIRS Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../power.html">POWER Module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Ayush Anand.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
