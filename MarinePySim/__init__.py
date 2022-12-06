@@ -34,7 +34,6 @@ __author__ = "Ayush Anand"
 __license__ = "MIT"
 
 __all__ = [
-    "ocean",
     "airs",
     "power",
 ]
